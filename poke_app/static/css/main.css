@@ -1,0 +1,61 @@
+/* General Body Styling */
+body {
+    background-color: #f0f0f0; /* Light grey background for a subtle texture */
+}
+
+/* Navigation Bar Customization */
+.navbar-custom {
+    background-color: #007bff; /* A deep blue, consider using Pokémon-themed colors */
+    border-bottom: 3px solid #0056b3; /* A slightly darker blue for depth */
+}
+
+/* Pokémon Card Styling */
+.pokemon-card {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+    transition: transform 0.2s; /* Smooth transformation on hover */
+}
+
+.pokemon-card:hover {
+    transform: translateY(-5px); /* Lift card on hover for interaction feedback */
+}
+
+/* Stats Display */
+.stats-container {
+    background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent white for readability */
+    padding: 15px;
+    border-radius: 8px;
+}
+
+.stat {
+    color: #333; /* Dark text for contrast */
+    font-weight: bold;
+}
+
+/* Battle Arena Styling */
+.battle-arena {
+    background-image: url('path/to/battle-arena-image.jpg');
+    background-size: cover;
+    padding: 50px 0; /* Padding top and bottom */
+    margin-top: 20px;
+    border-radius: 15px;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.2); /* More pronounced shadow for focus */
+}
+
+/* Utility Classes */
+.text-shadow {
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5); /* Text shadow for text over images */
+}
+
+.bg-darken {
+    background-color: rgba(0,0,0,0.5); /* Dark overlay for background images */
+    color: white; /* Ensure text is readable */
+}
+
+/* Responsiveness */
+@media (max-width: 768px) {
+    .battle-arena, .pokemon-card {
+        margin: 10px; /* Adjust margins for smaller screens */
+    }
+}
