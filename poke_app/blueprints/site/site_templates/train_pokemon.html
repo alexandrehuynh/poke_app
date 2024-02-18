@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h2>Train {{ pokemon.name }}</h2>
+    <form action="{{ url_for('site.train_pokemon', pokemon_id=pokemon.id) }}" method="post">
+        <select multiple class="form-control" name="moves" id="moves" size="10">
+            {% for move in moves %}
+            <option value="{{ move }}">{{ move }}</option>
+            {% endfor %}
+        </select>
+        <small>Hold down the Ctrl (windows) / Command (Mac) button to select multiple options.</small>
+        <button type="submit" class="btn btn-primary mt-3">Save Moves</button>
+    </form>
+</div>
+{% endblock %}

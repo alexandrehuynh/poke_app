@@ -17,3 +17,7 @@ class RegisterForm(FlaskForm):
     password = PasswordField('Password', validators = [ DataRequired()])
     confirm_password = PasswordField('Confirm Password', validators=[ DataRequired(), EqualTo('password')])
     submit = SubmitField('Sign Up')
+
+class TrainPokemonForm(FlaskForm):
+    pokemon_name = StringField('Pokemon Name', validators=[DataRequired()])
+    submit = SubmitField('Train New Pokemon')
