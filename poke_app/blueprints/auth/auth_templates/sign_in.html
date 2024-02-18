@@ -7,7 +7,7 @@
 <div class="container d-flex justify-content-center align-items-center">
     <div class="row mt-5 p-5 shadow rounded border border-primary w-75">
         <div class="col d-flex">
-            <img src="https://wallpapercave.com/wp/wp5981924.jpg" class='img-fluid rounded' alt="" srcset="">
+            <img src="{{ url_for('static', filename='images/pokecenter.jpeg') }}" class='img-fluid rounded' alt="" srcset="">
         </div>
         <div class="col">
             <form action="" class="row g-3" method="POST">
@@ -15,7 +15,7 @@
                 <h3>Log into your Account!</h3>
                 <div class="col-12">
                     {{ form.email.label }}
-                    {{ form.email(class='form-control mt-2', placeholder='jdoe@gmail.com' ) }}
+                    {{ form.email(class='form-control mt-2', placeholder='AshKetchum@pokemon.com' ) }}
                     {% for error in form.email.errors %}
                         <span class="err-msg"> {{ error }}</span>
                     {% endfor %}

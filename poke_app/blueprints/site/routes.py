@@ -9,4 +9,4 @@ site = Blueprint('site', __name__, template_folder='site_templates' )
 #use site object to create our routes
 @site.route('/')
 def pokecenter():
-    return render_template('pokecenter.html') #looking inside our template_folder (site_templates) to find our shop.html file
+    return render_template('pokecenter.html')

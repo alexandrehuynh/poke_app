@@ -7,7 +7,32 @@ import json
 # setup our api cache location (thhis will be a temporary database storing our api calls)
 requests_cache.install_cache('image_cache', backend='sqlite')
 
+# def get_image(search):
+#     # 4 parts to every api
+#     # url Required
+#     # queries/paremeters Optional
+#     # headers/authorization Optional
+#     # body/posting Optional
+    
+#     url = "https://google-search72.p.rapidapi.com/imagesearch"
 
+#     querystring = {"q": search,"gl":"us","lr":"lang_en","num":"10","start":"0"}
+
+#     headers = {
+#         "X-RapidAPI-Key": "9aac146b28msha98b54ca2f39ee0p16455djsn9a0f2e345df6",
+#         "X-RapidAPI-Host": "google-search72.p.rapidapi.com"
+#     }
+
+#     response = requests.get(url, headers=headers, params=querystring)
+
+#     data = response.json()
+    
+#     img_url = ''
+    
+#     if 'items' in data.keys():
+#         img_url = data['items'][0]['originalImageUrl']
+        
+#     return img_url
 
 def get_pokemon_data(pokemon_name):
     # The URL for the PokéAPI endpoint for a specific Pokémon

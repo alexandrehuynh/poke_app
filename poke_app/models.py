@@ -61,27 +61,19 @@ class User(db.Model, UserMixin):
 
     def __repr__(self):
         return f"<User: {self.username}>"
+    
+    pokemons = db.relationship('Pokemon', backref='trainer', lazy='dynamic')
 
 class Pokemon(db.Model):
-    poke_id = db.Column(db.String, primary_key=True)
+    poke_id = db.Column(db.String(50), primary_key=True, default=lambda: str(uuid.uuid4()))
     pokemon_name = db.Column(db.String(50), nullable=False)
-    image_url = db.Column(db.String)
+    image_url = db.Column(db.String(255))  # URL to the image
     description = db.Column(db.String(200))
     type = db.Column(db.String(50), nullable=False)
     abilities = db.Column(db.String(200))
     date_added = db.Column(db.DateTime, default=datetime.utcnow)
+    user_id = db.Column(db.String, db.ForeignKey('user.user_id'))
 
-    def __init__(self, pokemon_name, type, abilities, image_url="", description=""):
-        self.poke_id = str(uuid.uuid4())
-        self.pokemon_name = pokemon_name
-        self.image_url = image_url or self.set_default_image()
-        self.description = description
-        self.type = type
-        self.abilities = abilities
-
-    def set_default_image(self):
-        # Implement logic to set a default image if none is provided
-        pass
 
     def __repr__(self):
         return f"<Pokemon: {self.pokemon_name}>"
@@ -89,3 +81,7 @@ class Pokemon(db.Model):
 class PokemonSchema(ma.Schema):
     class Meta:
         fields = ['poke_id', 'pokemon_name', 'image_url', 'description', 'type', 'abilities']
+
+# Instantiate our PokemonSchema class so we can use them in our application
+pokemon_schema = PokemonSchema()  # For serializing a single Pokemon
+pokemons_schema = PokemonSchema(many=True)  # For serializing multiple Pokemon

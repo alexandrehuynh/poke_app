@@ -7,7 +7,7 @@
 <div class="container d-flex justify-content-center align-items-center">
     <div class="row mt-5 p-5 shadow rounded border border-primary w-75">
         <div class="col d-flex">
-            <img src="https://i.pinimg.com/originals/8c/95/6f/8c956fa56df48dfa53bacedba87d2efc.jpg" class='img-fluid rounded' alt="" srcset="">
+            <img src="{{ url_for('static', filename='images/elite4.jpeg') }}" class='img-fluid rounded' alt="" srcset="">
         </div>
         <div class="col">
             <form action="" class="row g-3" method="POST">
@@ -15,22 +15,22 @@
                 <h3>Register Now!</h3>
                 <div class="col-md-6">
                     {{ form.first_name.label }}
-                    {{ form.first_name(class='form-control mt-2', placeholder='John') }}
+                    {{ form.first_name(class='form-control mt-2', placeholder='Ash') }}
                 </div>
                 <div class="col-md-6">
                     {{ form.last_name.label }}
-                    {{ form.last_name(class='form-control mt-2', placeholder='Doe') }}
+                    {{ form.last_name(class='form-control mt-2', placeholder='Ketchum') }}
                 </div>
                 <div class="col-12">
                     {{ form.username.label }}
-                    {{ form.username(class='form-control mt-2', placeholder='jdoe' ) }}
+                    {{ form.username(class='form-control mt-2', placeholder='PikachuMaster' ) }}
                     {% for error in form.username.errors %}
                         <span class="err-msg"> {{ error }}</span>
                     {% endfor %}
                 </div>
                 <div class="col-12">
                     {{ form.email.label }}
-                    {{ form.email(class='form-control mt-2', placeholder='jdoe@gmail.com' ) }}
+                    {{ form.email(class='form-control mt-2', placeholder='AshKetchum@pokemon.com' ) }}
                     {% for error in form.email.errors %}
                         <span class="err-msg"> {{ error }}</span>
                     {% endfor %}
