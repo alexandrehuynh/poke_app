@@ -41,29 +41,34 @@ def get_pokemon():
 @api.route('/pokemon/create', methods=['POST'])
 @jwt_required()
 def create_pokemon():
+    # Ensure the request has JSON content
     data = request.get_json()
+    if not data:
+        return jsonify({'error': 'Request must be in JSON format'}), 400
 
-    new_pokemon = Pokemon(
-        pokemon_name=data.get('pokemon_name'),
-        image_url=data.get('image_url'),
-        moves=data.get('moves', ''),  # Default to empty string if not provided
-        type=data.get('type'),
-        abilities=data.get('abilities'),
-        user_id=current_user.get_id()  # Link the Pokemon to the user
-    )
+    # Validate and deserialize input
+    try:
+        new_pokemon_data = pokemon_schema.load(data)
+    except ValidationError as err:
+        return jsonify(err.messages), 400
 
+    # Add the current user's ID to the new Pokemon's data
+    new_pokemon_data['user_id'] = current_user.get_id()
+
+    # Create the new Pokemon instance
+    new_pokemon = Pokemon(**new_pokemon_data)
+
+    # Add the new Pokemon to the database
     db.session.add(new_pokemon)
     try:
         db.session.commit()
-        # Use PokemonSchema to serialize the new pokemon including the user_id
-        pokemon_schema = PokemonSchema()
+        # Serialize the new pokemon for the response
         response = pokemon_schema.dump(new_pokemon)
-        # Add user_id to the response manually if it's not included by default
-        response['user_id'] = new_pokemon.user_id
         return jsonify(response), 201
     except Exception as e:
         db.session.rollback()
         return jsonify({'error': str(e)}), 500
+
 
 
 @api.route('/pokemon/train_moves/<pokemon_id>', methods=['PUT'])

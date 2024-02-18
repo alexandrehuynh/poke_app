@@ -65,7 +65,7 @@ def train_pokemon(pokemon_id):
             return redirect(url_for('site.train_pokemon', pokemon_id=pokemon.poke_id))
         
         # Assuming you have a method or process to save these moves
-        pokemon.update_moves(selected_moves)
+        pokemon.set_moves(selected_moves)
         db.session.commit()
         flash("Moves updated successfully.", "success")
         return redirect(url_for('site.pokecenter'))
