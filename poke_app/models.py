@@ -4,6 +4,10 @@ from flask_login import UserMixin, LoginManager #helping us load a user as our c
 from datetime import datetime #put a timestamp on any data we create (Users, Products, etc)
 import uuid #makes a unique id for our data (primary key)
 from flask_marshmallow import Marshmallow
+from marshmallow import Schema, fields, validates, ValidationError, post_load
+from marshmallow_sqlalchemy import SQLAlchemyAutoSchema, auto_field
+
+
 
 
 
@@ -73,22 +77,40 @@ class Pokemon(db.Model):
     date_added = db.Column(db.DateTime, default=datetime.utcnow)
     user_id = db.Column(db.String, db.ForeignKey('user.user_id'))
 
-    def update_moves(self, moves_list):
-        """Update the Pokemon's moves.
-
-        Args:
-            moves_list (list): A list of move names to be saved.
-        """
-        # Join the list of moves into a comma-separated string and save
+    def set_moves(self, moves_list):
+        """Set the Pokemon's moves from a list."""
         self.moves = ','.join(moves_list)
 
+    def get_moves(self):
+        """Get the Pokemon's moves as a list."""
+        return self.moves.split(',') if self.moves else []
 
     def __repr__(self):
         return f"<Pokemon: {self.pokemon_name}>"
 
-class PokemonSchema(ma.Schema):
+class PokemonSchema(SQLAlchemyAutoSchema):
     class Meta:
-        fields = ['poke_id', 'pokemon_name', 'image_url', 'description', 'type', 'abilities']
+        model = Pokemon
+        load_instance = True  # Optional: for deserialization
+        include_fk = True  # Include foreign keys in the serialization
+        dump_only = ("poke_id",)  # Fields to exclude from deserialization
+        load_only = ("user_id",)  # Fields to exclude from serialization
+
+    pokemon_name = auto_field(required=True)
+    image_url = auto_field(required=True)
+    moves = auto_field(required=True)
+    type = auto_field(required=True)
+    abilities = auto_field(required=True)
+    user_id = auto_field(load_only=True)
+
+    @validates('pokemon_name')
+    def validate_pokemon_name(self, value):
+        if len(value) < 1:
+            raise ValidationError("Pokemon name must not be empty.")
+
+    @post_load
+    def make_pokemon(self, data, **kwargs):
+        return Pokemon(**data)
 
 # Instantiate our PokemonSchema class so we can use them in our application
 pokemon_schema = PokemonSchema()  # For serializing a single Pokemon

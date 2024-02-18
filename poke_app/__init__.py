@@ -9,7 +9,7 @@ from config import Config
 from .models import login_manager, db
 from .blueprints.site.routes import site #importing blueprint object
 from .blueprints.auth.routes import auth
-# from .blueprints.api.routes import api
+from .blueprints.api.routes import api
 from .helpers import JSONEncoder 
 
 
@@ -31,7 +31,7 @@ login_manager.login_message_category = 'warning'
 
 app.register_blueprint(site) #pass in site blueprint object to register
 app.register_blueprint(auth)
-# app.register_blueprint(api)
+app.register_blueprint(api)
 
 
 # intantiate our database & wrap our app in it

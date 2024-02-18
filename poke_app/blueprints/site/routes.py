@@ -89,4 +89,3 @@ def delete_pokemon(pokemon_id):
 def pokemon_count():
     count = current_user.pokemons.count()
     return jsonify({'count': count})
-
