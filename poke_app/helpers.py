@@ -26,22 +26,24 @@ def get_pokemon_data(pokemon_name):
             base_experience = data.get('base_experience', 0)
             stats = {stat['stat']['name']: stat['base_stat'] for stat in data.get('stats', [])}
 
-            # Correcting the path to extract the shiny sprite URL
+            # Correcting the path to extract the shiny/default sprite URL
             shiny_sprite_url = data['sprites']['other']['home']['front_shiny']
+            default_sprite_url = data['sprites']['other']['home']['front_default']
 
             # Extracting moves - we'll only take the move name for simplicity
             moves = [move['move']['name'] for move in data.get('moves', [])]
 
             # Compile all the extracted data into a single dictionary
             pokemon_data = {
-                'name': name,
-                'abilities': abilities,
-                'types': types,
-                'base_experience': base_experience,
-                'stats': stats,
-                'shiny_sprite_url': shiny_sprite_url,
-                'moves': moves,
-            }
+            'name': name,
+            'abilities': abilities,
+            'types': types,
+            'base_experience': base_experience,
+            'stats': stats,
+            'shiny_sprite_url': shiny_sprite_url,
+            'default_sprite_url': default_sprite_url,
+            'moves': moves,
+}
             return pokemon_data
 
         # Handle errors or cases where the Pokémon is not found

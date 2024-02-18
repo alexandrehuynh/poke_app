@@ -1,11 +1,61 @@
 .shop-header {
-    background-image: url("../images/happyash.jpeg");
-    background-size: cover; 
-    background-position: center; 
-    height: 87vh; 
-    color: white; 
+  background-image: url("../images/happyash.jpeg");
+  background-size: cover; 
+  background-position: center; 
+  height: 100vh; 
+  color: white; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-shadow: 2px 2px 8px #000000;  /* Adds a shadow to text to improve contrast */
 }
 
+/* Adding styling for the welcome message to make it stand out more */
+.welcome-message {
+  background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  padding: 20px;
+  border-radius: 15px;
+  max-width: 80%;
+  text-align: center;
+}
+
+/* This class is added to ensure stats are visible and have a separation from the background */
 .shop-stats {
-    color: white; 
+  color: white;
+  background: rgba(0, 0, 0, 0.75); /* Dark background for the stats */
+  padding: 10px 0;
+  margin: -4rem 0 2rem; /* Adjust margin to your preference */
+  border-radius: 0.5rem;
+  text-align: center;
+}
+
+/* Improves the button appearance */
+.btn-outline-light {
+  border-color: #ffffff;
+  color: #ffffff;
+}
+
+.btn-outline-light:hover {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+/* Notification message styling */
+.notification {
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border: 1px solid transparent;
+  border-radius: .25rem;
+}
+
+.success {
+  color: #155724;
+  background-color: #d4edda;
+  border-color: #c3e6cb;
+}
+
+.error {
+  color: #721c24;
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
 }

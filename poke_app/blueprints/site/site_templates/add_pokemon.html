@@ -6,6 +6,11 @@
     <form action="{{ url_for('site.add_pokemon') }}" method="post">
         <label for="pokemon_name">Pokémon Name:</label>
         <input type="text" id="pokemon_name" name="pokemon_name" required>
+        <label for="sprite_type">Choose Sprite:</label>
+        <select name="sprite_type" id="sprite_type">
+            <option value="default">Default</option>
+            <option value="shiny">Shiny</option>
+        </select>
         
         <button type="submit" class="btn btn-primary">Add Pokémon</button>
     </form>

@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm 
-from wtforms import StringField, PasswordField, IntegerField, DecimalField, SubmitField 
+from wtforms import StringField, PasswordField, IntegerField, DecimalField, SubmitField, SelectField
 from wtforms.validators import DataRequired, Email, EqualTo
 
 #creating our login & register forms 
@@ -20,4 +20,5 @@ class RegisterForm(FlaskForm):
 
 class TrainPokemonForm(FlaskForm):
     pokemon_name = StringField('Pokemon Name', validators=[DataRequired()])
+    sprite_type = SelectField('Sprite Type', choices=[('default', 'Default'), ('shiny', 'Shiny')])
     submit = SubmitField('Train New Pokemon')

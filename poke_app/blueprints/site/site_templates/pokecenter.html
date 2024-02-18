@@ -3,51 +3,53 @@
 {% block content %}
 <div class="container-fluid justify-content-center">
     <div class="row shop-header p-5">
-        <div class="col-3 ms-5 d-flex flex-column justify-content-center">
+        <div class="welcome-message">
             <h2>Welcome to the Elite 4</h2>
             <h5>All your training for this moment</h5>
-            {% if all_pokemon|length < 6 %}
+            {% if current_user.is_authenticated and current_user.pokemons.count() < 6 %}
                 <a href="{{ url_for('site.add_pokemon') }}" class="btn btn-outline-light mt-3">Train New Pokemon</a>
-            {% else %}
+            {% elif current_user.is_authenticated %}
                 <p>You have reached the limit of 6 Pokémon.</p>
             {% endif %}
         </div>
     </div>
-    <div class="row bg-dark p-3 shop-stats">
-        <div class="col d-flex justify-content-center">Total # of Pokémon: {{ all_pokemon|length }}</div>
-    </div>
-    {% for pokemon in all_pokemon %}
-    <div class="row mt-5 mb-5 justify-content-center">
-        <div class="card d-flex rounded shadow flex-row w-50 p-3" style="height: 350px;">
-            <div class="col d-flex align-items-center" style="max-width:230px;">
-                <img src="{{ pokemon.image_url }}" alt="{{ pokemon.pokemon_name }} picture" class="img-fluid rounded">
-            </div>
-            <div class="card-body d-flex flex-column justify-content-center p-4">
-                <h5 class="card-title">{{ pokemon.pokemon_name }}</h5>
-                <p class="card-text"><strong>Type:</strong> {{ pokemon.type }}</p>
-                <p class="card-text"><strong>Abilities:</strong> {{ pokemon.abilities }}</p>
-                <p class="card-text">
-                    <strong>Moves:</strong> 
-                    {% if pokemon.moves %}
-                        {{ pokemon.moves }}
-                    {% else %}
-                        Moves not trained yet.
-                    {% endif %}
-                </p>
-                <!-- Add more Pokémon details as needed -->
-                <div class="mt-2">
-                    <a href="{{ url_for('site.train_pokemon', pokemon_id=pokemon.poke_id) }}" class="card-link btn btn-warning">Train Pokémon</a>
-                      <!-- Form to release (delete) Pokémon -->
-                      <form action="{{ url_for('site.delete_pokemon', pokemon_id=pokemon.poke_id) }}" method="POST" style="display: inline-block;">
-                        <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to release this Pokémon?');">Release Pokémon</button>
-                    </form>
+    {% if current_user.is_authenticated %}
+        <div class="row bg-dark p-3 shop-stats">
+            <div class="col d-flex justify-content-center">Total # of Pokémon: {{ current_user.pokemons.count() }}</div>
+        </div>
+        {% for pokemon in current_user.pokemons %}
+            <div class="row mt-5 mb-5 justify-content-center">
+                <div class="card d-flex rounded shadow flex-row w-50 p-3" style="height: 350px;">
+                    <div class="col d-flex align-items-center" style="max-width:230px;">
+                        <img src="{{ pokemon.image_url }}" alt="{{ pokemon.pokemon_name }} picture" class="img-fluid rounded">
+                    </div>
+                    <div class="card-body d-flex flex-column justify-content-center p-4">
+                        <h5 class="card-title">{{ pokemon.pokemon_name }}</h5>
+                        <p class="card-text"><strong>Type:</strong> {{ pokemon.type }}</p>
+                        <p class="card-text"><strong>Abilities:</strong> {{ pokemon.abilities }}</p>
+                        <p class="card-text">
+                            <strong>Moves:</strong> 
+                            {% if pokemon.moves %}
+                                {{ pokemon.moves }}
+                            {% else %}
+                                Moves not trained yet.
+                            {% endif %}
+                        </p>
+                        <div class="mt-2">
+                            <a href="{{ url_for('site.train_pokemon', pokemon_id=pokemon.poke_id) }}" class="card-link btn btn-warning">Train Pokémon</a>
+                            <form action="{{ url_for('site.delete_pokemon', pokemon_id=pokemon.poke_id) }}" method="POST" style="display: inline-block;">
+                                <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to release this Pokémon?');">Release Pokémon</button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
+        {% else %}
+            <div class="text-center">No Pokémon found. Time to catch some!</div>
+        {% endfor %}
     {% else %}
-    <div class="text-center">No Pokémon found. Time to catch some!</div>
-    {% endfor %}
+        <div class="text-center">Please log in to see your Pokémon.</div>
+    {% endif %}
 </div>
 {% endblock %}
 

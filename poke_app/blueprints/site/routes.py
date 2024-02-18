@@ -13,42 +13,43 @@ site = Blueprint('site', __name__, template_folder='site_templates' )
 #use site object to create our routes
 @site.route('/')
 def pokecenter():
-    all_pokemon = Pokemon.query.all()  # Query all Pokémon from the database
-    return render_template('pokecenter.html', all_pokemon=all_pokemon)
-
+    if current_user.is_authenticated:
+        # This line should fetch only the Pokémon that belong to the current user
+        user_pokemons = current_user.pokemons.all()  # Assuming you have a 'pokemons' relationship set up
+        return render_template('pokecenter.html', pokemons=user_pokemons)
+    else:
+        # Handle the case for when no user is logged in
+        return render_template('pokecenter.html')
+    
 @site.route('/add_pokemon', methods=['GET', 'POST'])
 def add_pokemon():
-
-    # Check how many Pokemon the current user already has
-    pokemon_count = current_user.pokemons.count()
-    if pokemon_count >= 6:
-        flash('You cannot have more than 6 Pokémon.', 'error')
-        return redirect(url_for('site.pokecenter'))
-    
-    # Code to add a new Pokemon
     if request.method == 'POST':
-        pokemon_name = request.form.get('pokemon_name')
+        pokemon_name = request.form['pokemon_name']
+        sprite_type = request.form['sprite_type']
+        
         pokemon_data = get_pokemon_data(pokemon_name)
-
         if pokemon_data and 'error' not in pokemon_data:
-            # Here we create a new Pokemon instance using the fetched data
+            # Choose the sprite based on user selection
+            sprite_url = pokemon_data['shiny_sprite_url'] if sprite_type == 'shiny' else pokemon_data['default_sprite_url']
+            
             new_pokemon = Pokemon(
                 pokemon_name=pokemon_data['name'],
-                image_url=pokemon_data['shiny_sprite_url'],
-                type=','.join(pokemon_data['types']),  # Joining list of types into a single string
-                abilities=','.join(pokemon_data['abilities']),  # Same for abilities
-                user_id=current_user.get_id()  
-            )
+                image_url=sprite_url,
+                type=','.join(pokemon_data['types']),
+                abilities=','.join(pokemon_data['abilities']),
+                user_id=current_user.get_id()
+            )            
             db.session.add(new_pokemon)
             db.session.commit()
             flash('Pokemon added successfully.', 'success')
         else:
             flash(f"Could not find Pokémon named {pokemon_name}.", 'error')
+            return redirect(url_for('site.add_pokemon'))
+
         
         return redirect(url_for('site.pokecenter'))
 
-    return render_template('add_pokemon.html')  # Render the page with the form if GET request or if POST fails
-
+    return render_template('add_pokemon.html')
 
 @site.route('/train_pokemon/<string:pokemon_id>', methods=['GET', 'POST'])
 @login_required
