@@ -43,9 +43,11 @@ def add_pokemon():
     return render_template('add_pokemon.html')  # Render the page with the form if GET request or if POST fails
 
 
-@site.route('/train_pokemon/<pokemon_name>', methods=['GET', 'POST'])
+@site.route('/train_pokemon/<string:pokemon_id>', methods=['GET', 'POST'])
 @login_required
 def train_pokemon(pokemon_id):
+    print("Training Pokémon ID:", pokemon_id)
+
     pokemon = Pokemon.query.get_or_404(pokemon_id)
     
     if request.method == 'POST':
@@ -60,7 +62,7 @@ def train_pokemon(pokemon_id):
         flash("Moves updated successfully.", "success")
         return redirect(url_for('site.pokecenter'))
 
-    moves = get_pokemon_moves(pokemon.name)
+    moves = get_pokemon_moves(pokemon.pokemon_name)
     return render_template('train_pokemon.html', pokemon=pokemon, moves=moves)
 
 @site.route('/delete_pokemon/<string:pokemon_id>', methods=['POST'])
