@@ -68,9 +68,9 @@ def create_pokemon():
         return jsonify({'error': str(e)}), 500
 
 
-@api.route('/pokemon/train_moves/<pokemon_id>', methods=['PUT'])
+@api.route('/pokemon/train_moves/<string:pokemon_id>', methods=['PUT'])
 @jwt_required()
-def train_new_moves(pokemon_id):
+def train_moves(pokemon_id):
     data = request.json
     new_moves = data.get('moves')  # Expected to be a list of move names
     
