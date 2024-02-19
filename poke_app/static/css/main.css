@@ -17,6 +17,7 @@
   border-radius: 15px;
   max-width: 80%;
   text-align: center;
+  margin-bottom: 0; /* remove bottom margin from the h4 */
 }
 
 /* This class is added to ensure stats are visible and have a separation from the background */

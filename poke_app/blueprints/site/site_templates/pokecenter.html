@@ -4,15 +4,18 @@
 <div class="container-fluid justify-content-center">
     <div class="row shop-header p-5">
         <div class="welcome-message">
-            <h2>Welcome to the Elite 4</h2>
-            <h5>All your training for this moment</h5>
+            <h1>Embark on Your Ultimate Quest</h1>
+            <h4>Forge your legacy, where every battle is a tale of triumph!</h4>
             {% if current_user.is_authenticated and current_user.pokemons.count() < 6 %}
                 <a href="{{ url_for('site.add_pokemon') }}" class="btn btn-outline-light mt-3">Train New Pokémon</a>
             {% elif current_user.is_authenticated %}
                 <p>You have reached the limit of 6 Pokémon.</p>
+            {% else %}
+            <a href="/signin" class="btn view-button btn-outline-light mt-3">Sign In</a>
             {% endif %}
         </div>
     </div>
+
     {% if current_user.is_authenticated %}
         <div class="row bg-dark p-3 shop-stats">
             <div class="col d-flex justify-content-center">Total # of Pokémon: {{ current_user.pokemons.count() }}</div>
