@@ -38,37 +38,34 @@ def get_pokemon():
     response = pokemons_schema.dump(allpokes) #loop through allpoke list of objects and change objects into dictionarys
     return jsonify(response)
 
+
 @api.route('/pokemon/create', methods=['POST'])
 @jwt_required()
 def create_pokemon():
-    # Ensure the request has JSON content
+ 
     data = request.get_json()
-    if not data:
-        return jsonify({'error': 'Request must be in JSON format'}), 400
+    print("Received Data:", data)  # Debug print
 
-    # Validate and deserialize input
+    # Load data into a Pokemon model instance
     try:
-        new_pokemon_data = pokemon_schema.load(data)
+        new_pokemon = pokemon_schema.load(data, session=db.session)  # This will directly return a Pokemon instance
     except ValidationError as err:
         return jsonify(err.messages), 400
 
-    # Add the current user's ID to the new Pokemon's data
-    new_pokemon_data['user_id'] = current_user.get_id()
+    print("Loaded Pokemon:", new_pokemon)  # Debug print to confirm loading is correct
 
-    # Create the new Pokemon instance
-    new_pokemon = Pokemon(**new_pokemon_data)
+    # Manually set the user_id if not set by load method
+    if not new_pokemon.user_id:
+        new_pokemon.user_id = current_user.get_id()
 
-    # Add the new Pokemon to the database
-    db.session.add(new_pokemon)
+    db.session.add(new_pokemon)  # Add the new Pokemon model instance directly
     try:
         db.session.commit()
-        # Serialize the new pokemon for the response
-        response = pokemon_schema.dump(new_pokemon)
-        return jsonify(response), 201
+        return jsonify(pokemon_schema.dump(new_pokemon)), 201
     except Exception as e:
         db.session.rollback()
+        print(e)  # Debug print the error
         return jsonify({'error': str(e)}), 500
-
 
 
 @api.route('/pokemon/train_moves/<pokemon_id>', methods=['PUT'])
@@ -85,7 +82,6 @@ def train_new_moves(pokemon_id):
     # Validate moves (optional, could be added here)
     
     # Update the Pokémon's moves
-    # Assuming you have a method in your Pokemon model to handle the moves update
     pokemon.set_moves(new_moves[:4])  # Limit to first 4 moves if more are provided
     
     # Save changes to the database
