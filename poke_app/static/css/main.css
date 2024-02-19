@@ -59,3 +59,31 @@
   background-color: #f8d7da;
   border-color: #f5c6cb;
 }
+
+.card {
+  min-height: 350px;
+}
+
+.pokemon-image-container {
+  padding-right: 20px; /* Adjust the padding as needed */
+  flex-shrink: 0; /* Prevents the image container from shrinking */
+}
+
+.pokemon-image-container img {
+  max-width: 110%; /* Keeps image within the container */
+  height: auto; /* Maintains aspect ratio */
+  display: block; /* Ensures it takes up the full block */
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Adjusts space distribution */
+  align-items: left; 
+  flex: 1; /* This allows the text container to grow and shrink: can also use flex-grow and flex-shrink properties */
+  overflow: hidden;  /* or 'auto' if you want scrollbars */
+}
+.card-text {
+  word-wrap: break-word; /* This will break long words that would otherwise extend beyond the edge of the container */
+  overflow-wrap: break-word; /* This ensures that if there are long words, they break and wrap onto the next line */
+}

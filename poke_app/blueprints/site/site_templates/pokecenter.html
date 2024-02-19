@@ -20,7 +20,7 @@
         {% for pokemon in current_user.pokemons %}
             <div class="row mt-5 mb-5 justify-content-center">
                 <div class="card d-flex rounded shadow flex-row w-50 p-3" style="height: 350px;">
-                    <div class="col d-flex align-items-center" style="max-width:230px;">
+                    <div class="pokemon-image-container col d-flex align-items-center" style="max-width:230px;">
                         <img src="{{ pokemon.image_url }}" alt="{{ pokemon.pokemon_name }} picture" class="img-fluid rounded">
                     </div>
                     <div class="card-body d-flex flex-column justify-content-center p-4">
