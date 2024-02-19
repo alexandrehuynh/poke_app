@@ -19,6 +19,6 @@ class RegisterForm(FlaskForm):
     submit = SubmitField('Sign Up')
 
 class TrainPokemonForm(FlaskForm):
-    pokemon_name = StringField('Pokemon Name', validators=[DataRequired()])
+    pokemon_name = StringField('Pokémon Name', validators=[DataRequired()])
     sprite_type = SelectField('Sprite Type', choices=[('default', 'Default'), ('shiny', 'Shiny')])
     submit = SubmitField('Train New Pokemon')

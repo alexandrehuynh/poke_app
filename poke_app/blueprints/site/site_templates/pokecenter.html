@@ -7,7 +7,7 @@
             <h2>Welcome to the Elite 4</h2>
             <h5>All your training for this moment</h5>
             {% if current_user.is_authenticated and current_user.pokemons.count() < 6 %}
-                <a href="{{ url_for('site.add_pokemon') }}" class="btn btn-outline-light mt-3">Train New Pokemon</a>
+                <a href="{{ url_for('site.add_pokemon') }}" class="btn btn-outline-light mt-3">Train New Pokémon</a>
             {% elif current_user.is_authenticated %}
                 <p>You have reached the limit of 6 Pokémon.</p>
             {% endif %}
