@@ -36,7 +36,8 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(30), nullable=False, unique=True)
     email = db.Column(db.String(150), nullable=False, unique=True)
     password = db.Column(db.String, nullable=False)
-    pokemons = db.relationship('Pokemon', backref='trainer', lazy='dynamic')
+    pokemons = db.relationship('Pokemon', backref='user', lazy='dynamic')
+    
     date_added = db.Column(db.DateTime, default=datetime.utcnow) #this is going to grab a timestamp as soon as a User object is instantiated
 
 
